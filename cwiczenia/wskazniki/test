@@ -1,0 +1,51 @@
+
+print('###############')
+class ListNode:
+    def __init__(self, value=0, next=None):
+        self.value = value
+        self.next = next
+
+def zad5(first):
+    firstL = [None] * 10
+    curL = [None] * 10
+    cur = first
+
+    while cur is not None:
+        index = cur.value % 10
+        new_node = ListNode(cur.value)
+
+        if curL[index] is not None:
+            curL[index].next = new_node
+            curL[index] = curL[index].next
+        else:
+            curL[index] = new_node
+            firstL[index] = curL[index]
+
+        cur = cur.next
+
+    result_head = None
+    result_tail = None
+
+    for i in range(10):
+        if firstL[i] is not None:
+            if result_head is None:
+                result_head = firstL[i]
+                result_tail = curL[i]
+            else:
+                result_tail.next = firstL[i]
+                result_tail = curL[i]
+
+    return result_head
+
+# Przykład użycia:
+# Załóżmy, że mamy listę odsyłaczową: 12 -> 25 -> 18 -> 7 -> 14
+head = ListNode(12, ListNode(25, ListNode(18, ListNode(7, ListNode(14)))))
+
+# Wywołanie funkcji
+new_head = zad5(head)
+
+# Wyświetlenie zaktualizowanej listy
+current = new_head
+while current is not None:
+    print(current.value, end=" -> ")
+    current = current.next
